@@ -1,21 +1,21 @@
 package org.example.yandex.pageobjects;
 
-import org.example.yandex.PageObject;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.FindBy;
+import com.codeborne.selenide.Selenide;
+import com.codeborne.selenide.SelenideElement;
 
-public class MainPage extends PageObject {
-    public MainPage(WebDriver driver) {
-        super(driver);
+import static com.codeborne.selenide.Selenide.$x;
+
+public class MainPage  {
+    private final SelenideElement touchBar = $x("//a[@aria-label='Сервисы']");
+    private final SelenideElement buttonImages = $x("//a[@aria-label='Картинки']");
+
+    public MainPage(String url) {
+        Selenide.open(url);
     }
 
-    public static final String URL = "https://yandex.ru/";
-
-    @FindBy(xpath = "//div[text()='Картинки']")
-    public WebElement buttonImages;
-
     public void goToImagesSearch() {
+        touchBar.click();
         buttonImages.click();
+        Selenide.switchTo().window(1);
     }
 }

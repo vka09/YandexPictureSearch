@@ -1,25 +1,26 @@
 package org.example.yandex.pageobjects;
 
-import org.example.yandex.PageObject;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.FindBy;
+import com.codeborne.selenide.ElementsCollection;
+import com.codeborne.selenide.SelenideElement;
 
+import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ImagesResultPage extends PageObject {
+import static com.codeborne.selenide.Selenide.$$x;
+import static com.codeborne.selenide.Condition.visible;
+import static com.codeborne.selenide.Selenide.*;
 
-    public ImagesResultPage(WebDriver driver) {
-        super(driver);
-    }
+public class ImagesResultPage {
 
-    @FindBy(xpath = "//div[@class='CbirItem CbirTags']//span")
-    public List<WebElement> suggestedNames;
+    private final SelenideElement tagPanel = $x("//section[@class='CbirSection CbirTags']");
+    private final ElementsCollection suggestedNamesFirst = $$x(tagPanel + "//span");
+    private final ElementsCollection suggestedNames = $$x("//section[@class='CbirSection CbirTags']//span");
 
     public List<String> getTextsFromBullet() {
+        tagPanel.shouldBe(visible, Duration.ofSeconds(10));
         List<String> suggestedText = new ArrayList<>();
-        for (WebElement name : suggestedNames) {
+        for (SelenideElement name : suggestedNames) {
             suggestedText.add(name.getText().toLowerCase());
         }
         return suggestedText;

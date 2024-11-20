@@ -1,29 +1,19 @@
 package org.example.yandex.pageobjects;
 
-import org.example.yandex.PageObject;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.FindBy;
+import com.codeborne.selenide.Condition;
+import com.codeborne.selenide.SelenideElement;
 
-public class ImagesStartPage extends PageObject {
+import java.time.Duration;
 
-    public ImagesStartPage(WebDriver driver) {
-        super(driver);
-    }
+import static com.codeborne.selenide.Selenide.$x;
 
-    @FindBy(xpath = "//div[contains(@class,'input__button')]")
-    public WebElement buttonSearchByImage;
-
-    @FindBy(xpath = "//input[@type='file']")
-    public WebElement fieldForInputFile;
-
-    @FindBy(xpath = "//input[@placeholder='Введите адрес изображения']")
-    public WebElement fieldForInputPath;
-
+public class ImagesStartPage {
+    private final SelenideElement buttonSearchByImage = $x("//button[contains(@class, 'input__cbir-button')]");
+    private final SelenideElement fieldForInputFile = $x("//input[@type='file']");
 
     public void setPathToPicture(String path) {
         buttonSearchByImage.click();
+        //fieldForInputFile.shouldBe(Condition.visible, Duration.ofSeconds(10));
         fieldForInputFile.sendKeys(path);
     }
-
 }
